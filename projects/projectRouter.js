@@ -61,6 +61,18 @@ router.put('/:id', validateProjectId, (req, res) => {
     });
 });
 
+router.get('/:id/projectActions', validateProjectId, (req, res) => {
+  const { id } = req.project;
+  Project.getProjectActions(id)
+    .then(actions => {
+      res.status(200).json(actions);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ errorMessage: 'Error updating project' });
+    });
+});
+
 router.use('/:id/actions', validateProjectId, actionRouter);
 
 // Middleware
