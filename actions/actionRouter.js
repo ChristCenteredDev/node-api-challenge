@@ -31,6 +31,34 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', validateActionId, (req, res) => {
+  res.status(200).json(req.action);
+});
+
+router.delete('/:id', validateActionId, (req, res) => {
+  const { id } = req.action;
+  Actions.remove(id)
+    .then(() => res.status(204).end())
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ errorMessage: 'Error deleting action' });
+    });
+});
+
+router.put('/:id', validateActionId, (req, res) => {
+  const { id } = req.action;
+  const { project_id, description, notes } = req.body;
+
+  Actions.update(id, { project_id, description, notes })
+    .then(action => {
+      res.status(200).json(action);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ errorMessage: 'Error updating action' });
+    });
+});
+
 // Middleware
 
 function validateActionId(req, res, next) {
