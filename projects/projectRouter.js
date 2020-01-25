@@ -61,7 +61,7 @@ router.put('/:id', validateProjectId, (req, res) => {
     });
 });
 
-// router.use('/:id/actions', validateProjectId, actionRouter);
+router.use('/:id/actions', validateProjectId, actionRouter);
 
 // Middleware
 
